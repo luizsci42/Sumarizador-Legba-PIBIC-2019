@@ -1,7 +1,6 @@
 // As linhas 2 e e são equivalentes à linha 6
 // const pg = require('pg');
 // const client = pg.Client();
-
 // Importa o drive de conexão com o PosgreSQL
 const { Client } = require('pg');
 const keys = require('./config/keys');
@@ -18,6 +17,8 @@ cliente.connect(err => {
 	err ? console.error('Erro de conexão', err.stack) : console.log('Conectado');
 });
 
+testeDeConsulta()
+
 function fecharConexao() {
 	// Utiliza uma promise para encerrar a conexão com o banco de dados
 	cliente.end()
@@ -27,8 +28,7 @@ function fecharConexao() {
 
 // Mostra o titulo e o autor de todas as obras no banco
 function testeDeConsulta() {
-	cliente.query('SELECT obras.titulo, livros.autor FROM biblioteca.obras natural join biblioteca.livros;', (err, res) => {
-		alert('Funcionou');
+	cliente.query('SELECT obras.titulo, livros.autor FROM biblioteca.obras natural join biblioteca.livros', (err, res) => {
 		if(err) throw err;
 		console.log(res.rows);
 		fecharConexao();
@@ -46,7 +46,7 @@ function obrasOrdemAlfabetica() {
 
 // Mostra a quantidade de livros disponível no acervo
 function quantidadeLivros() {
-	let query = 'SELECT COUNT(obras.titulo) FROM biblioteca.obras JOIN biblioteca.livros ON obras.id = livros.obras_id'
+	let query = 'SELECT COUNT(obras.titulo) FROM biblioteca.obras NATURAL JOIN biblioteca.livros'
 	cliente.query(query, (err, res) => {
 		if(err) throw err;
 		console.log(res);
@@ -95,6 +95,7 @@ function emprestimoBloqueio() {
 	});
 }
 
+// Todos os clientes e funcionários
 function nomesPessoas() {
 	cliente.query('SELECT nome\n' +
 		'FROM biblioteca.bibliotecario\n' +
