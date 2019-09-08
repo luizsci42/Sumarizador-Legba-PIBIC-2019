@@ -3,9 +3,29 @@
   "version": "1.0.0",
   "dependencies": {
     "express": "^4.17.1",
-    "html": "^1.0.0",
     "mongoose": "^5.6.9",
     "pg": "^7.12.1",
     "pug": "^2.0.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

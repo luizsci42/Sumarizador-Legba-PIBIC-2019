@@ -17,4 +17,9 @@ module.exports = app => {
     app.get('/home', (req, res) => {
         res.render('home', {titulo: 'Teste', mensagem:'Olá Mundo!'});
     });
+
+    app.get('/teste', (req, res) => {
+        // res.send(consultas());
+        res.send({express: 'Olá Mundo!'});
+    });
 }
