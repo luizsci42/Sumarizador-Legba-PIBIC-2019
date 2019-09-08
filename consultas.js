@@ -17,8 +17,6 @@ cliente.connect(err => {
 	err ? console.error('Erro de conexão', err.stack) : console.log('Conectado');
 });
 
-testeDeConsulta()
-
 function fecharConexao() {
 	// Utiliza uma promise para encerrar a conexão com o banco de dados
 	cliente.end()
@@ -27,7 +25,7 @@ function fecharConexao() {
 }
 
 // Mostra o titulo e o autor de todas as obras no banco
-function testeDeConsulta() {
+module.exports = function testeDeConsulta() {
 	cliente.query('SELECT obras.titulo, livros.autor FROM biblioteca.obras natural join biblioteca.livros', (err, res) => {
 		if(err) throw err;
 		console.log(res.rows);
@@ -36,7 +34,7 @@ function testeDeConsulta() {
 }
 
 // Lista todas as obras em ordem alfabetica
-function obrasOrdemAlfabetica() {
+const obrasOrdemAlfabetica = function obrasOrdemAlfabetica() {
 	cliente.query('SELECT obras.titulo FROM biblioteca.obras ORDER BY obras.titulo ASC', (err, res) => {
 		if(err) throw err;
 		console.log(res);
@@ -45,7 +43,7 @@ function obrasOrdemAlfabetica() {
 }
 
 // Mostra a quantidade de livros disponível no acervo
-function quantidadeLivros() {
+const qntLivros = function quantidadeLivros() {
 	let query = 'SELECT COUNT(obras.titulo) FROM biblioteca.obras NATURAL JOIN biblioteca.livros'
 	cliente.query(query, (err, res) => {
 		if(err) throw err;
@@ -55,7 +53,7 @@ function quantidadeLivros() {
 }
 
 // Mostra a quantidade de clientes da biblioteca
-function quantidadeClientes() {
+const qntClientes = function quantidadeClientes() {
 	cliente.query('SELECT cliente.nome FROM biblioteca.cliente GROUP BY funcionario.nome', (err, res) => {
 		if(err) throw err;
 		console.log(res);
@@ -64,7 +62,7 @@ function quantidadeClientes() {
 }
 
 // Mostra os empréstimos atuais de determinado cliente
-function emprestimosAtivos() {
+const emprestimosAtivos = function emprestimosAtivos() {
 	let query = 'SELECT cliente.nome , emprestimo.status FROM biblioteca.cliente JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id WHERE emprestimo.status IS TRUE'
 	cliente.query(query, (err, res) => {
 		if(err) throw err;
@@ -74,7 +72,7 @@ function emprestimosAtivos() {
 }
 
 // Mostra todos os títulos de determinado autor
-function titulosAutor() {
+const titulosAutor = function titulosAutor() {
 	cliente.query('SELECT autor.id_autor, livros.titulo FROM biblioteca.autor \n' +
 		'JOIN biblioteca.livros ON autor.livro_id_isbn = livros.id_isbn', (err, res) => {
 		if(err) throw err;
@@ -84,7 +82,7 @@ function titulosAutor() {
 }
 
 // Mostra qual emprestimo gerou o bloqueio do cliente
-function emprestimoBloqueio() {
+const emprestimoBloqueio = function emprestimoBloqueio() {
 	cliente.query('SELECT bloqueio.id, cliente.nome FROM biblioteca.cliente \n' +
 		'JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id\n' +
 		'JOIN biblioteca.bloqueio ON bloqueio.id = cliente.bloqueio_id \n' +
@@ -96,7 +94,7 @@ function emprestimoBloqueio() {
 }
 
 // Todos os clientes e funcionários
-function nomesPessoas() {
+const nomesPessoas = function nomesPessoas() {
 	cliente.query('SELECT nome\n' +
 		'FROM biblioteca.bibliotecario\n' +
 		'NATURAL JOIN biblioteca.atendente\n' +
