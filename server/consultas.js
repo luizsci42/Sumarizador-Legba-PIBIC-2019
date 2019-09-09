@@ -1,10 +1,9 @@
-// As linhas 2 e e são equivalentes à linha 6
+// As linhas 2 e 3 são equivalentes à linha 5
 // const pg = require('pg');
 // const client = pg.Client();
 // Importa o drive de conexão com o PosgreSQL
-// const { Client } = require('pg');
-// const keys = require('./config/keys');
 const { Client } = require('pg');
+// Importamos as chaves de conexão defindas no arquivo keys.js
 const keys = require('./config/keys');
 
 const cliente = new Client({
@@ -14,10 +13,15 @@ const cliente = new Client({
 	password: keys.cliente.senha,
 	database: keys.cliente.nomeDB
 });
+
 function conectar() {
-	cliente.connect(err => {
-		err ? console.error('Erro de conexão', err.stack) : console.log('Conectado');
-	});
+	try {
+		cliente.connect(err => {
+			console.log('Conectado');
+		});
+	} catch (err) {
+		console.error('Erro de conexão', err.stack)
+	}
 }
 
 function fecharConexao() {

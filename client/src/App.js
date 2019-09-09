@@ -1,30 +1,38 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
 
-  state = { obras: [] };
+  state = { data: [] };
 
-  componentDidMount() {
-    this.callApi()
-        .then( res => this.setState({response: res.express}))
-        .catch(err => console.log(err));
+    // Esta função é do ciclo de vida do ReactJS. Executada quando os componentes são montados
+    async componentDidMount() {
+        await fetch('/teste')
+            .then(res => {
+                // console.log('resposta', res)
+                return res.json();
+            })
+            .then(obras => {
+                // console.log('O que temos?', obras.dados)
+                // this.state.data = obras.dados;
+                // this.renderTableData();
+                this.setState({data: obras.dados});
+            });
+    }
+
+  renderTableData() {
+        console.log('Tabela', this.state.data);
+        return this.state.data.map((obra, index) => {
+            console.log(obra)
+          const [titulo, autor]  = obra;
+          return (
+              <tr>
+                  <td>{titulo}</td>
+                  <td>{autor}</td>
+              </tr>
+          )
+      })
   }
-
-  callApi = async () => {
-    const response = await fetch('/teste')
-        .then(res => {
-          console.log(res);
-          return res.json();
-        })
-        .then(obras => {
-          this.setState({obras});
-          console.log(obras)
-        })
-    const body = await response.json();
-    return body;
-  };
 
   render() {
     return (
@@ -43,10 +51,12 @@ class App extends Component {
               <button>Todos os clientes e funcionários</button>
             </div>
             <div className="resultado">
-              <h2>Acervo</h2>
-              {this.state.obras.map(obra =>
-                  <div titulo={obra.titulo}>Titulo: {obra.titulo} Autor: {obra.autor}</div>
-              )}
+                {React.createElement("h2", null, "Dados")}
+                <table>
+                    <tbody>
+                    {this.renderTableData()}
+                    </tbody>
+                </table>
             </div>
           </div>
         </div>
