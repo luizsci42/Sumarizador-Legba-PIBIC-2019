@@ -50,57 +50,126 @@ module.exports = {
 		return result.rows;
 	},
 	qntLivros: async function quantidadeLivros() {
-		let query = 'SELECT COUNT(obras.titulo) FROM biblioteca.obras NATURAL JOIN biblioteca.livros'
-		cliente.query(query, (err, res) => {
-			if(err) throw err;
-			console.log(res);
-			fecharConexao();
-		});
+	    const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT COUNT(obras.titulo) FROM biblioteca.obras NATURAL JOIN biblioteca.livros'
+        });
+	    return result.rows;
 	},
 	qntClients: async function quantidadeClientes() {
-		cliente.query('SELECT cliente.nome FROM biblioteca.cliente GROUP BY funcionario.nome', (err, res) => {
-			if(err) throw err;
-			console.log(res);
-			fecharConexao();
-		});
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT cliente.nome FROM biblioteca.cliente GROUP BY funcionario.nome'
+        });
+        return result.rows;
 	},
 	emprestimos: async function emprestimosAtivos() {
-		let query = 'SELECT cliente.nome , emprestimo.status FROM biblioteca.cliente JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id WHERE emprestimo.status IS TRUE'
-		cliente.query(query, (err, res) => {
-			if (err) throw err;
-			console.log(res);
-			fecharConexao();
-		});
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT cliente.nome, emprestimo.status FROM biblioteca.cliente JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id WHERE emprestimo.status IS TRUE'
+        });
+        return result.rows;
 	},
 
 	titulosAutor: async function titulosAutor() {
-		cliente.query('SELECT autor.id_autor, livros.titulo FROM biblioteca.autor \n' +
-			'JOIN biblioteca.livros ON autor.livro_id_isbn = livros.id_isbn', (err, res) => {
-			if(err) throw err;
-			console.log(res);
-			fecharConexao();
-		});
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT autor.id_autor, livros.titulo FROM biblioteca.autor \n' +
+                'JOIN biblioteca.livros ON autor.livro_id_isbn = livros.id_isbn'
+        });
+        return result.rows;
 	},
 	emprestimoBloqueio: async function emprestimoBloqueio() {
-		cliente.query('SELECT bloqueio.id, cliente.nome FROM biblioteca.cliente \n' +
-			'JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id\n' +
-			'JOIN biblioteca.bloqueio ON bloqueio.id = cliente.bloqueio_id \n' +
-			'WHERE bloqueio.id IS NOT NULL', (err, res) => {
-			if(err) throw err;
-			console.log(res);
-			fecharConexao();
-		});
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT bloqueio.id, cliente.nome FROM biblioteca.cliente \n' +
+                'JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id\n' +
+                'JOIN biblioteca.bloqueio ON bloqueio.id = cliente.bloqueio_id \n' +
+                'WHERE bloqueio.id IS NOT NULL'
+        });
+        return result.rows;
 	},
 	nomesPessoas: async function nomesPessoas() {
-		cliente.query('SELECT nome\n' +
-			'FROM biblioteca.bibliotecario\n' +
-			'NATURAL JOIN biblioteca.atendente\n' +
-			'NATURAL JOIN biblioteca.cliente', (err, res) => {
-			if(err) throw err;
-			console.log(res);
-			fecharConexao();
-		});
-	}
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT nome\n' +
+                'FROM biblioteca.bibliotecario\n' +
+                'NATURAL JOIN biblioteca.atendente\n' +
+                'NATURAL JOIN biblioteca.cliente'
+        });
+        return result.rows;
+    },
+    titulosP: async function nomesComP() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT obras.titulo FROM biblioteca.obras WHERE obras.titulo LIKE "P%"'
+        });
+        return result.rows;
+    },
+    idBiblitecarios: async function idBibliotecarios() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT bibliotecario.id\n' +
+                'FROM biblioteca.bibliotecario\n' +
+                'GROUP BY bibliotecario.id\n' +
+                'HAVING COUNT(bibliotecario.id) > 0'
+        });
+        return result.rows;
+    },
+    clientes: async function idBibliotecarios() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT cliente.nome FROM biblioteca.cliente WHERE EXISTS(SELECT atendente.id FROM biblioteca.atendente WHERE cliente.id = atendente.cliente_id)'
+        });
+        return result.rows;
+    },
+    atenBibli: async function atenBibli() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT atendente.id, bibliotecario.id\n' +
+                'FROM biblioteca.atendente \n' +
+                'JOIN biblioteca.bibliotecario\n' +
+                'USING(id) \n' +
+                'WHERE EXISTS\n' +
+                '\t(SELECT cliente.nascimento\n' +
+                '\tFROM biblioteca.cliente\n' +
+                '\tWHERE cliente.nascimento \n' +
+                '\tBETWEEN \'1978-09-06\' AND \'1999-09-06\')'
+        });
+        return result.rows;
+    },
+    idadeCliente: async function idadeCliente() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT AGE(now(),(SELECT cliente.nascimento FROM biblioteca.cliente WHERE nome = "Geovanne"))'
+        });
+        return result.rows;
+    },
+    somaLivros: async function somaLivros() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT  (COUNT(obras.genero="Ficção Científica")+COUNT(obras.genero="Fantasia")) as total FROM biblioteca.obras JOIN biblioteca.livros ON obras.id = livros.obras_id'
+        });
+        return result.rows;
+    },
+    livros: async function livros() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT  obras.titulo\n' +
+                'FROM biblioteca.obras\n' +
+                'WHERE obras.id IN\n' +
+                '\t(SELECT livros.obras_id\n' +
+                '\tFROM biblioteca.livros)'
+        });
+        return result.rows;
+    },
+    periodicosFiccao: async function periodicosFiccao() {
+        const result = await cliente.query({
+            rowMode: 'array',
+            text: 'SELECT  obras.titulo FROM biblioteca.obras WHERE obras.id IN(SELECT periodico.obras_id FROM biblioteca.periodico JOIN biblioteca.obras ON obras.genero = "Ficção Científica" WHERE periodico.obras_id = obras.id)'
+        });
+        return result.rows;
+    }
 }
 
 

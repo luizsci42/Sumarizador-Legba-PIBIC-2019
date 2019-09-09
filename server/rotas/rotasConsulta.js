@@ -65,7 +65,56 @@ module.exports = app => {
         })
     }
 
-    app.get('/home', (req, res) => {
-        res.render('home', {titulo: 'Teste', mensagem:'Olá Mundo!'});
-    });
+    app.get('/consOito'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+
+    app.get('/consNove'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/consDez'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/consOnze'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/consDoze'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/conTreze'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/consCatorze'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/consQuinze'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/consDezesseis'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+    app.get('/consDezessete'), (req, res) => {
+        consulta.nomesPessoas().then(dados => {
+            res.send({dados: dados});
+        })
+    }
+
 }

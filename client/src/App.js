@@ -11,9 +11,9 @@ class App extends Component {
     }
 
   renderTableData() {
-        console.log('Tabela', this.state.data);
-        return this.state.data.map((obra, index) => {
-          const [titulo, autor]  = obra;
+        return this.state.data.map((dado, index) => {
+          const [titulo, autor]  = dado;
+          console.log(dado)
           return (
               <tr>
                   <td>{titulo}</td>
@@ -48,6 +48,16 @@ class App extends Component {
                 <button onClick={texto => this.direcionar(texto='/consCinco')}>Mostra todos os títulos de determinado autor</button>
                 <button onClick={texto => this.direcionar(texto='/consSeis')}>Mostra qual emprestimo gerou o bloqueio do cliente</button>
                 <button onClick={texto => this.direcionar(texto='/consSete')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consOito')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consNove')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consDez')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consOnze')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consDoze')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consTreze')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consCatorze')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consQuinze')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consDezesseis')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consDezessete')}>Todos os clientes e funcionários</button>
             </div>
             <div className="resultado">
                 {React.createElement("h2", null, "Acervo")}
