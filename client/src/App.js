@@ -7,23 +7,12 @@ class App extends Component {
 
     // Esta função é do ciclo de vida do ReactJS. Executada quando os componentes são montados
     async componentDidMount() {
-        await fetch('/teste')
-            .then(res => {
-                // console.log('resposta', res)
-                return res.json();
-            })
-            .then(obras => {
-                // console.log('O que temos?', obras.dados)
-                // this.state.data = obras.dados;
-                // this.renderTableData();
-                this.setState({data: obras.dados});
-            });
+        this.direcionar('/teste');
     }
 
   renderTableData() {
         console.log('Tabela', this.state.data);
         return this.state.data.map((obra, index) => {
-            console.log(obra)
           const [titulo, autor]  = obra;
           return (
               <tr>
@@ -34,6 +23,16 @@ class App extends Component {
       })
   }
 
+  async direcionar(caminho) {
+      await fetch(caminho)
+          .then(res => {
+              return res.json();
+          })
+          .then(obras => {
+              this.setState({data: obras.dados});
+          });
+  }
+
   render() {
     return (
         <div>
@@ -41,17 +40,17 @@ class App extends Component {
           <div className="row">
             <div className="botoes">
               <h2>Consultas pré definidas</h2>
-              <button>Teste de Consulta</button>
-              <button>Todas as obras em ordem alfabética por título</button>
-              <button>Mostra a quantidade de obras no acervo</button>
-              <button>Mostra a quantidade de clientes da biblioteca</button>
-              <button>Mostra os empréstimos atuais de determinado cliente</button>
-              <button>Mostra todos os títulos de determinado autor</button>
-              <button>Mostra qual emprestimo gerou o bloqueio do cliente</button>
-              <button>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/teste')}>Teste de Consulta</button>
+                <button onClick={texto => this.direcionar(texto='/consum')}>Todas as obras em ordem alfabética por título</button>
+                <button onClick={texto => this.direcionar(texto='/consdois')}>Mostra a quantidade de obras no acervo</button>
+                <button onClick={texto => this.direcionar(texto='/constres')}>Mostra a quantidade de clientes da biblioteca</button>
+                <button onClick={texto => this.direcionar(texto='/consQuatro')}>Mostra os empréstimos atuais de determinado cliente</button>
+                <button onClick={texto => this.direcionar(texto='/consCinco')}>Mostra todos os títulos de determinado autor</button>
+                <button onClick={texto => this.direcionar(texto='/consSeis')}>Mostra qual emprestimo gerou o bloqueio do cliente</button>
+                <button onClick={texto => this.direcionar(texto='/consSete')}>Todos os clientes e funcionários</button>
             </div>
             <div className="resultado">
-                {React.createElement("h2", null, "Dados")}
+                {React.createElement("h2", null, "Acervo")}
                 <table>
                     <tbody>
                     {this.renderTableData()}
