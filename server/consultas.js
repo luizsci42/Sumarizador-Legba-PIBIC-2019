@@ -2,6 +2,8 @@
 // const pg = require('pg');
 // const client = pg.Client();
 // Importa o drive de conexão com o PosgreSQL
+// const { Client } = require('pg');
+// const keys = require('./config/keys');
 const { Client } = require('pg');
 const keys = require('./config/keys');
 
@@ -12,10 +14,11 @@ const cliente = new Client({
 	password: keys.cliente.senha,
 	database: keys.cliente.nomeDB
 });
-
-cliente.connect(err => {
-	err ? console.error('Erro de conexão', err.stack) : console.log('Conectado');
-});
+function conectar() {
+	cliente.connect(err => {
+		err ? console.error('Erro de conexão', err.stack) : console.log('Conectado');
+	});
+}
 
 function fecharConexao() {
 	// Utiliza uma promise para encerrar a conexão com o banco de dados
@@ -24,13 +27,13 @@ function fecharConexao() {
 		.catch(err => console.error('Erro ao desconectar', err.stack));
 }
 
-// Mostra o titulo e o autor de todas as obras no banco
-module.exports = function testeDeConsulta() {
-	cliente.query('SELECT obras.titulo, livros.autor FROM biblioteca.obras natural join biblioteca.livros', (err, res) => {
-		if(err) throw err;
-		console.log(res.rows);
-		fecharConexao();
+module.exports = async function consultar() {
+	conectar();
+	const result = await cliente.query({
+		rowMode: 'array',
+		text: 'SELECT obras.titulo, livros.autor FROM biblioteca.obras natural join biblioteca.livros;'
 	});
+	return result.rows;
 }
 
 // Lista todas as obras em ordem alfabetica

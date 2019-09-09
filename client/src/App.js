@@ -4,7 +4,7 @@ import './App.css';
 
 class App extends Component {
 
-  state = {response: ''};
+  state = { obras: [] };
 
   componentDidMount() {
     this.callApi()
@@ -13,16 +13,23 @@ class App extends Component {
   }
 
   callApi = async () => {
-    const response = await fetch('/teste');
+    const response = await fetch('/teste')
+        .then(res => {
+          console.log(res);
+          return res.json();
+        })
+        .then(obras => {
+          this.setState({obras});
+          console.log(obras)
+        })
     const body = await response.json();
-
     return body;
   };
 
   render() {
     return (
         <div>
-          <h2>{$state.response}</h2>
+          <h2>Trabalho de Banco de Dados</h2>
           <div className="row">
             <div className="botoes">
               <h2>Consultas pré definidas</h2>
@@ -37,6 +44,9 @@ class App extends Component {
             </div>
             <div className="resultado">
               <h2>Acervo</h2>
+              {this.state.obras.map(obra =>
+                  <div titulo={obra.titulo}>Titulo: {obra.titulo} Autor: {obra.autor}</div>
+              )}
             </div>
           </div>
         </div>
