@@ -1,8 +1,7 @@
 {
-  "name": "biblioteca",
+  "name": "biblioteca_front",
   "version": "0.1.0",
   "proxy": "http://localhost:5000",
-  "private": true,
   "dependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
