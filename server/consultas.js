@@ -7,11 +7,11 @@ const { Client } = require('pg');
 const keys = require('./config/keys');
 
 const cliente = new Client({
-	host: keys.trabalho.endereco,
-	port: keys.trabalho.porta,
-	user: keys.trabalho.usuario,
-	password: keys.trabalho.senha,
-	database: keys.trabalho.nomeDB
+	host: keys.cliente.endereco,
+	port: keys.cliente.porta,
+	user: keys.cliente.usuario,
+	password: keys.cliente.senha,
+	database: keys.cliente.nomeDB
 });
 
 function conectar() {
@@ -73,45 +73,35 @@ module.exports = {
 	titulosAutor: async function titulosAutor() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT autor.id_autor, livros.titulo FROM biblioteca.autor \n' +
-                'JOIN biblioteca.livros ON autor.livro_id_isbn = livros.id_isbn'
+            text: 'SELECT autor.id_autor, livros.titulo FROM biblioteca.autor JOIN biblioteca.livros ON autor.livro_id_isbn = livros.id_isbn'
         });
         return result.rows;
 	},
 	emprestimoBloqueio: async function emprestimoBloqueio() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT bloqueio.id, cliente.nome FROM biblioteca.cliente \n' +
-                'JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id\n' +
-                'JOIN biblioteca.bloqueio ON bloqueio.id = cliente.bloqueio_id \n' +
-                'WHERE bloqueio.id IS NOT NULL'
+            text: 'SELECT bloqueio.id, cliente.nome FROM biblioteca.cliente JOIN biblioteca.emprestimo ON cliente.emprestimo_id = emprestimo.id JOIN biblioteca.bloqueio ON bloqueio.id = cliente.bloqueio_id WHERE bloqueio.id IS NOT NULL'
         });
         return result.rows;
 	},
 	nomesPessoas: async function nomesPessoas() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT nome\n' +
-                'FROM biblioteca.bibliotecario\n' +
-                'NATURAL JOIN biblioteca.atendente\n' +
-                'NATURAL JOIN biblioteca.cliente'
+            text: 'SELECT nom FROM biblioteca.bibliotecario NATURAL JOIN biblioteca.atendente NATURAL JOIN biblioteca.cliente'
         });
         return result.rows;
     },
     titulosP: async function nomesComP() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT obras.titulo FROM biblioteca.obras WHERE obras.titulo LIKE "P%"'
+            text: 'SELECT obras.titulo FROM biblioteca.obras WHERE obras.titulo LIKE "F%"'
         });
         return result.rows;
     },
     idBiblitecarios: async function idBibliotecarios() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT bibliotecario.id\n' +
-                'FROM biblioteca.bibliotecario\n' +
-                'GROUP BY bibliotecario.id\n' +
-                'HAVING COUNT(bibliotecario.id) > 0'
+            text: 'SELECT bibliotecario.i FROM biblioteca.bibliotecario GROUP BY bibliotecario.id HAVING COUNT(bibliotecario.id) > 0'
         });
         return result.rows;
     },
@@ -125,15 +115,7 @@ module.exports = {
     atenBibli: async function atenBibli() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT atendente.id, bibliotecario.id\n' +
-                'FROM biblioteca.atendente \n' +
-                'JOIN biblioteca.bibliotecario\n' +
-                'USING(id) \n' +
-                'WHERE EXISTS\n' +
-                '\t(SELECT cliente.nascimento\n' +
-                '\tFROM biblioteca.cliente\n' +
-                '\tWHERE cliente.nascimento \n' +
-                '\tBETWEEN \'1978-09-06\' AND \'1999-09-06\')'
+            text: 'SELECT atendente.id, bibliotecario.id FROM biblioteca.atendente JOIN biblioteca.bibliotecario USING(id) WHERE EXISTS (SELECT cliente.nascimento FROM biblioteca.cliente WHERE cliente.nascimento BETWEEN \"1978-09-06\" AND \"1999-09-06\")'
         });
         return result.rows;
     },
@@ -154,11 +136,7 @@ module.exports = {
     livros: async function livros() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT  obras.titulo\n' +
-                'FROM biblioteca.obras\n' +
-                'WHERE obras.id IN\n' +
-                '\t(SELECT livros.obras_id\n' +
-                '\tFROM biblioteca.livros)'
+            text: 'SELECT  obras.titulo FROM biblioteca.obras WHERE obras.id IN (SELECT livros.obras_id FROM biblioteca.livros)'
         });
         return result.rows;
     },
