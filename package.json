@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "dependencies": {
     "express": "^4.17.1",
+    "js": "^0.1.0",
     "mongoose": "^5.6.9",
     "pg": "^7.12.1",
+    "pug": "^2.0.4",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-scripts": "3.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postinstall": "npm install --prefix server && npm install --prefix biblioteca"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
