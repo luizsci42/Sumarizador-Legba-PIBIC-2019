@@ -73,7 +73,7 @@ module.exports = {
 	titulosAutor: async function titulosAutor() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT autor.id_autor, livros.titulo FROM biblioteca.autor JOIN biblioteca.livros ON autor.livro_id_isbn = livros.id_isbn'
+            text: 'SELECT autor.id_autor, obras.titulo FROM biblioteca.autor NATURAL JOIN biblioteca.obras'
         });
         return result.rows;
 	},
@@ -87,21 +87,21 @@ module.exports = {
 	nomesPessoas: async function nomesPessoas() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT nom FROM biblioteca.bibliotecario NATURAL JOIN biblioteca.atendente NATURAL JOIN biblioteca.cliente'
+            text: 'SELECT bibliotecario.nome, atendente.nome FROM biblioteca.bibliotecario NATURAL JOIN biblioteca.atendente NATURAL JOIN biblioteca.cliente'
         });
         return result.rows;
     },
     titulosP: async function nomesComP() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT obras.titulo FROM biblioteca.obras WHERE obras.titulo LIKE "F%"'
+            text: 'SELECT obras.titulo FROM biblioteca.obras WHERE obras.titulo LIKE \'P%\''
         });
         return result.rows;
     },
     idBiblitecarios: async function idBibliotecarios() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT bibliotecario.i FROM biblioteca.bibliotecario GROUP BY bibliotecario.id HAVING COUNT(bibliotecario.id) > 0'
+            text: 'SELECT bibliotecario.id FROM biblioteca.bibliotecario GROUP BY bibliotecario.id HAVING COUNT(bibliotecario.id) > 0'
         });
         return result.rows;
     },
@@ -115,21 +115,21 @@ module.exports = {
     atenBibli: async function atenBibli() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT atendente.id, bibliotecario.id FROM biblioteca.atendente JOIN biblioteca.bibliotecario USING(id) WHERE EXISTS (SELECT cliente.nascimento FROM biblioteca.cliente WHERE cliente.nascimento BETWEEN \"1978-09-06\" AND \"1999-09-06\")'
+            text: 'SELECT atendente.id, bibliotecario.id FROM biblioteca.atendente JOIN biblioteca.bibliotecario USING(id) WHERE EXISTS (SELECT cliente.nascimento FROM biblioteca.cliente WHERE cliente.nascimento BETWEEN \'1978-09-06\' AND \'1999-09-06\')'
         });
         return result.rows;
     },
     idadeCliente: async function idadeCliente() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT AGE(now(),(SELECT cliente.nascimento FROM biblioteca.cliente WHERE nome = "Geovanne"))'
+            text: 'SELECT AGE(now(),(SELECT cliente.nascimento FROM biblioteca.cliente WHERE nome = \'Geovanne\'))'
         });
         return result.rows;
     },
     somaLivros: async function somaLivros() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT  (COUNT(obras.genero="Ficção Científica")+COUNT(obras.genero="Fantasia")) as total FROM biblioteca.obras JOIN biblioteca.livros ON obras.id = livros.obras_id'
+            text: 'SELECT  (COUNT(obras.genero=\'Ficção Científica\')+COUNT(obras.genero=\'Fantasia\')) as total FROM biblioteca.obras JOIN biblioteca.livros ON obras.id = livros.obras_id'
         });
         return result.rows;
     },
@@ -143,7 +143,7 @@ module.exports = {
     periodicosFiccao: async function periodicosFiccao() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT  obras.titulo FROM biblioteca.obras WHERE obras.id IN(SELECT periodico.obras_id FROM biblioteca.periodico JOIN biblioteca.obras ON obras.genero = "Ficção Científica" WHERE periodico.obras_id = obras.id)'
+            text: 'SELECT  obras.titulo FROM biblioteca.obras WHERE obras.id IN(SELECT periodico.obras_id FROM biblioteca.periodico JOIN biblioteca.obras ON obras.genero = \'Ficção Científica\' WHERE periodico.obras_id = obras.id)'
         });
         return result.rows;
     }

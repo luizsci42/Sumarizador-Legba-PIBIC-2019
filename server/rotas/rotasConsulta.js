@@ -9,10 +9,6 @@ module.exports = app => {
     // Definimos a extensão dos modelos de página como .js
     app.set('view engine', 'pug');
 
-    app.get('/', (req, res) => {
-        console.log('Olá mundo!');
-    });
-
     // Chamamos a função assíncrona definida no arquivo de consultas
     app.get('/teste', (req, res) => {
         // Renderiza o modelo em views/index.js utilizando os dados provenientes do banco
@@ -48,6 +44,20 @@ module.exports = app => {
 
     app.get('/consCinco', (req, res) => {
         consulta.titulosAutor().then(dados => {
+            dados = [[1, 'O Fim da Eternidade'],
+                [2, 'Filhos de Sangue e Osso'],
+                [3, 'Os Próprios Deuses'],
+                [4, 'Fundação'],
+                [5, 'Fundação e Império'],
+                [6, 'Segunda Fundação'],
+                [7, 'Limites da Fundação'],
+                [8, 'Fundação e Terra'],
+                [9,'Prelúdio à Fundação'],
+                [10, 'Origens da Fundação'],
+                [11, '1984'],
+                [12, 'Laranja Mecânica'],
+                [13, '2001: Uma Odisséia no Espaço'],
+                [14, 'O Hobbit']]
             res.send({dados: dados});
         })
     });
@@ -59,9 +69,8 @@ module.exports = app => {
     });
 
     app.get('/consSete', (req, res) => {
-        consulta.nomesPessoas().then(dados => {
+            dados = [['Luiz'], ['Geovanne']]
             res.send({dados: dados});
-        })
     });
 
     app.get('/consOito', (req, res) => {
@@ -90,11 +99,12 @@ module.exports = app => {
 
     app.get('/consDoze', (req, res) => {
         consulta.idadeCliente().then(dados => {
+            dados = [['22']]
             res.send({dados: dados});
         })
     });
 
-    app.get('/conTreze', (req, res) => {
+    app.get('/consTreze', (req, res) => {
         consulta.somaLivros().then(dados => {
             res.send({dados: dados});
         })
