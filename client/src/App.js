@@ -12,6 +12,7 @@ class App extends Component {
 
   renderTableData() {
         return this.state.data.map((dado, index) => {
+            console.log(dado)
           const [titulo, autor]  = dado;
           console.log(dado)
           return (
@@ -26,6 +27,7 @@ class App extends Component {
   async direcionar(caminho) {
       await fetch(caminho)
           .then(res => {
+              console.log(res)
               return res.json();
           })
           .then(obras => {
@@ -44,20 +46,18 @@ class App extends Component {
                 <button onClick={texto => this.direcionar(texto='/consum')}>Todas as obras em ordem alfabética por título</button>
                 <button onClick={texto => this.direcionar(texto='/consdois')}>Mostra a quantidade de obras no acervo</button>
                 <button onClick={texto => this.direcionar(texto='/constres')}>Mostra a quantidade de clientes da biblioteca</button>
-                <button onClick={texto => this.direcionar(texto='/consQuatro')}>Mostra os empréstimos atuais de determinado cliente</button>
-                <button onClick={texto => this.direcionar(texto='/consCinco')}>Mostra todos os títulos de determinado autor</button>
-                <button onClick={texto => this.direcionar(texto='/consSeis')}>Mostra qual emprestimo gerou o bloqueio do cliente</button>
-                <button onClick={texto => this.direcionar(texto='/consSete')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consOito')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consNove')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consDez')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consOnze')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consDoze')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consTreze')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consCatorze')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consQuinze')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consDezesseis')}>Todos os clientes e funcionários</button>
-                <button onClick={texto => this.direcionar(texto='/consDezessete')}>Todos os clientes e funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consQuatro')}>Mostra os empréstimos ativos dos clientes</button>
+                <button onClick={texto => this.direcionar(texto='/consCinco')}>Todos os títulos e id's de autores</button>
+                <button onClick={texto => this.direcionar(texto='/consSeis')}>Clientes com bloqueio e id do empréstimo</button>
+                <button onClick={texto => this.direcionar(texto='/consSete')}>Nomes dos funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consOito')}>Livros que começam com P</button>
+                <button onClick={texto => this.direcionar(texto='/consNove')}>Id's dos bibliotecários</button>
+                <button onClick={texto => this.direcionar(texto='/consDez')}>Nomes dos clientes</button>
+                <button onClick={texto => this.direcionar(texto='/consOnze')}>ID's dos funcionários</button>
+                <button onClick={texto => this.direcionar(texto='/consDoze')}>Idade do cliente Geovanne</button>
+                <button onClick={texto => this.direcionar(texto='/consTreze')}>Quantidade total de livros de fantasia e ficção científica</button>
+                <button onClick={texto => this.direcionar(texto='/consCatorze')}>Titulos de obras</button>
+                <button onClick={texto => this.direcionar(texto='/consQuinze')}>Periódicos de ficção científica</button>
             </div>
             <div className="resultado">
                 {React.createElement("h2", null, "Acervo")}

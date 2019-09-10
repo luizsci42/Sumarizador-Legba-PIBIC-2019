@@ -30,91 +30,85 @@ module.exports = app => {
 
     app.get('/consdois', (req,res) => {
         consulta.qntLivros().then(qnt => {
-            console.log('Quantidade', qnt)
             res.send({dados: qnt});
         });
     });
 
-    app.get('/constres'), (req, res) => {
+    app.get('/constres', (req, res) => {
         consulta.qntClients().then(qnt => {
             res.send({dados: qnt});
-        })
-    }
+        });
+    });
 
-    app.get('/consQuatro'), (req, res) => {
+    app.get('/consQuatro', (req, res) => {
         consulta.emprestimos().then(dados => {
             res.send({dados: dados});
         })
-    }
+    });
 
-    app.get('/consCinco'), (req, res) => {
+    app.get('/consCinco', (req, res) => {
         consulta.titulosAutor().then(dados => {
             res.send({dados: dados});
         })
-    }
+    });
 
-    app.get('/consSeis'), (req, res) => {
+    app.get('/consSeis', (req, res) => {
         consulta.emprestimoBloqueio().then(dados => {
             res.send({dados: dados});
         })
-    }
+    });
 
-    app.get('/consSete'), (req, res) => {
+    app.get('/consSete', (req, res) => {
         consulta.nomesPessoas().then(dados => {
             res.send({dados: dados});
         })
-    }
+    });
 
-    app.get('/consOito'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
+    app.get('/consOito', (req, res) => {
+        consulta.titulosP().then(dados => {
             res.send({dados: dados});
         })
-    }
+    });
 
-    app.get('/consNove'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
+    app.get('/consNove', (req, res) => {
+        consulta.idBiblitecarios().then(dados => {
             res.send({dados: dados});
         })
-    }
-    app.get('/consDez'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
-    app.get('/consOnze'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
-    app.get('/consDoze'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
-    app.get('/conTreze'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
-    app.get('/consCatorze'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
-    app.get('/consQuinze'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
-    app.get('/consDezesseis'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
-    app.get('/consDezessete'), (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
-        })
-    }
+    });
 
+    app.get('/consDez', (req, res) => {
+        consulta.clientes().then(dados => {
+            res.send({dados: dados});
+        })
+    });
+
+    app.get('/consOnze', (req, res) => {
+        consulta.atenBibli().then(dados => {
+            res.send({dados: dados});
+        })
+    });
+
+    app.get('/consDoze', (req, res) => {
+        consulta.idadeCliente().then(dados => {
+            res.send({dados: dados});
+        })
+    });
+
+    app.get('/conTreze', (req, res) => {
+        consulta.somaLivros().then(dados => {
+            res.send({dados: dados});
+        })
+    });
+
+    app.get('/consCatorze', (req, res) => {
+        consulta.livros().then(dados => {
+            res.send({dados: dados});
+        })
+    });
+
+    app.get('/consQuinze', (req, res) => {
+        consulta.periodicosFiccao().then(dados => {
+            res.send({dados: dados});
+        })
+    });
 }

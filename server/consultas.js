@@ -7,11 +7,11 @@ const { Client } = require('pg');
 const keys = require('./config/keys');
 
 const cliente = new Client({
-	host: keys.cliente.endereco,
-	port: keys.cliente.porta,
-	user: keys.cliente.usuario,
-	password: keys.cliente.senha,
-	database: keys.cliente.nomeDB
+	host: keys.trabalho.endereco,
+	port: keys.trabalho.porta,
+	user: keys.trabalho.usuario,
+	password: keys.trabalho.senha,
+	database: keys.trabalho.nomeDB
 });
 
 function conectar() {
@@ -42,7 +42,6 @@ module.exports = {
 	},
 	alfabetica: async function obrasOrdemAlfabetica() {
 		conectar()
-		console.log('Alfabetica')
 		const result = await cliente.query({
 			rowMode: 'array',
 			text: 'SELECT DISTINCT obras.titulo FROM biblioteca.obras ORDER BY obras.titulo ASC'
@@ -59,7 +58,7 @@ module.exports = {
 	qntClients: async function quantidadeClientes() {
         const result = await cliente.query({
             rowMode: 'array',
-            text: 'SELECT cliente.nome FROM biblioteca.cliente GROUP BY funcionario.nome'
+            text: 'SELECT COUNT(cliente.nome) FROM biblioteca.cliente'
         });
         return result.rows;
 	},
@@ -116,7 +115,7 @@ module.exports = {
         });
         return result.rows;
     },
-    clientes: async function idBibliotecarios() {
+    clientes: async function clientes() {
         const result = await cliente.query({
             rowMode: 'array',
             text: 'SELECT cliente.nome FROM biblioteca.cliente WHERE EXISTS(SELECT atendente.id FROM biblioteca.atendente WHERE cliente.id = atendente.cliente_id)'
