@@ -58,9 +58,7 @@ module.exports = app => {
     });
 
     app.get('/consSete', (req, res) => {
-        consulta.nomesPessoas().then(dados => {
-            res.send({dados: [['Luiz'], ['Geovanne']]});
-        })
+        res.send({dados: [['Luiz'], ['Geovanne']]});
     });
 
     app.get('/consOito', (req, res) => {
