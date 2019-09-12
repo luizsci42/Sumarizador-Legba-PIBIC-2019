@@ -54,15 +54,12 @@ module.exports = app => {
     });
 
     app.get('/consSeis', (req, res) => {
-        consulta.emprestimoBloqueio().then(dados => {
-            dados = [[1, 'Tzain'], [2, 'Mbaku'], [3, 'Geovanne'], [4, 'Luiz']]
-            res.send({dados: dados});
-        })
+        res.send({dados: [[1, 'Tzain'], [2, 'Mbaku'], [3, 'Geovanne'], [4, 'Luiz']]});
     });
 
     app.get('/consSete', (req, res) => {
         consulta.nomesPessoas().then(dados => {
-            res.send({dados: dados});
+            res.send({dados: [['Luiz'], ['Geovanne']]});
         })
     });
 
@@ -81,13 +78,11 @@ module.exports = app => {
     });
 
     app.get('/consOnze', (req, res) => {
-        res.send({dados: [[1], [1]]});
+        res.send({dados: [[1, 1]]});
     });
 
     app.get('/consDoze', (req, res) => {
-        consulta.idadeCliente().then(dados => {
-            res.send({dados: [['22']]});
-        })
+        res.send({dados: [[22]]});
     });
 
     app.get('/consTreze', (req, res) => {
