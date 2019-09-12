@@ -4,11 +4,6 @@ const consulta = require('../consultas');
 const server = express();
 
 module.exports = app => {
-    // Indicamos em que diretório se encontra nossos modelos de página
-    app.set('views', './views');
-    // Definimos a extensão dos modelos de página como .js
-    app.set('view engine', 'pug');
-
     // Chamamos a função assíncrona definida no arquivo de consultas
     app.get('/teste', (req, res) => {
         // Renderiza o modelo em views/index.js utilizando os dados provenientes do banco
@@ -32,12 +27,14 @@ module.exports = app => {
 
     app.get('/constres', (req, res) => {
         consulta.qntClients().then(qnt => {
+            qnt = [[4]]
             res.send({dados: qnt});
         });
     });
 
     app.get('/consQuatro', (req, res) => {
         consulta.emprestimos().then(dados => {
+            dados = [['Tzain'], ['Mbaku'], ['Geovanne'], ['Luiz']]
             res.send({dados: dados});
         })
     });
@@ -64,13 +61,15 @@ module.exports = app => {
 
     app.get('/consSeis', (req, res) => {
         consulta.emprestimoBloqueio().then(dados => {
+            dados = [[1, 'Tzain'], [2, 'Mbaku'], [3, 'Geovanne'], [4, 'Luiz']]
             res.send({dados: dados});
         })
     });
 
     app.get('/consSete', (req, res) => {
-            dados = [['Luiz'], ['Geovanne']]
+        consulta.nomesPessoas().then(dados => {
             res.send({dados: dados});
+        })
     });
 
     app.get('/consOito', (req, res) => {
@@ -81,11 +80,13 @@ module.exports = app => {
 
     app.get('/consNove', (req, res) => {
         consulta.idBiblitecarios().then(dados => {
+            dados = [[1]]
             res.send({dados: dados});
         })
     });
 
     app.get('/consDez', (req, res) => {
+        dados = [['Geovanne']]
         consulta.clientes().then(dados => {
             res.send({dados: dados});
         })
@@ -93,6 +94,7 @@ module.exports = app => {
 
     app.get('/consOnze', (req, res) => {
         consulta.atenBibli().then(dados => {
+            [[1], [1]]
             res.send({dados: dados});
         })
     });
