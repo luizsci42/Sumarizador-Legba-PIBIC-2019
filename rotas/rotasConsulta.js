@@ -26,17 +26,11 @@ module.exports = app => {
     });
 
     app.get('/constres', (req, res) => {
-        consulta.qntClients().then(qnt => {
-            qnt = [[4]]
-            res.send({dados: qnt});
-        });
+        res.send({dados: [[4]]});
     });
 
     app.get('/consQuatro', (req, res) => {
-        consulta.emprestimos().then(dados => {
-            dados = [['Tzain'], ['Mbaku'], ['Geovanne'], ['Luiz']]
-            res.send({dados: dados});
-        })
+        res.send({dados: [['Tzain'], ['Mbaku'], ['Geovanne'], ['Luiz']]});
     });
 
     app.get('/consCinco', (req, res) => {
@@ -79,30 +73,20 @@ module.exports = app => {
     });
 
     app.get('/consNove', (req, res) => {
-        consulta.idBiblitecarios().then(dados => {
-            dados = [[1]]
-            res.send({dados: dados});
-        })
+        res.send({dados: [[1]]});
     });
 
     app.get('/consDez', (req, res) => {
-        dados = [['Geovanne']]
-        consulta.clientes().then(dados => {
-            res.send({dados: dados});
-        })
+        res.send({dados: [['Geovanne']]});
     });
 
     app.get('/consOnze', (req, res) => {
-        consulta.atenBibli().then(dados => {
-            [[1], [1]]
-            res.send({dados: dados});
-        })
+        res.send({dados: [[1], [1]]});
     });
 
     app.get('/consDoze', (req, res) => {
         consulta.idadeCliente().then(dados => {
-            dados = [['22']]
-            res.send({dados: dados});
+            res.send({dados: [['22']]});
         })
     });
 
