@@ -14,15 +14,14 @@ const cliente = new Client({
 	database: keys.heroku.nomeDB
 });
 
-function conectar() {
-	try {
-		cliente.connect(err => {
-			console.log('Conectado');
-		});
-	} catch (err) {
-		console.error('Erro de conexão', err.stack)
-	}
-}
+cliente.connect(err => {
+      if (err) {
+        console.error('Erro de conexão', err.stack);
+      }
+      else {
+         console.log('Conectado');
+      }
+});
 
 function fecharConexao() {
 	// Utiliza uma promise para encerrar a conexão com o banco de dados
@@ -33,7 +32,6 @@ function fecharConexao() {
 
 module.exports = {
 	consultar: async function consultar() {
-		conectar();
 		const result = await cliente.query({
 			rowMode: 'array',
 			text: 'SELECT obras.titulo, livros.autor FROM biblioteca.obras natural join biblioteca.livros;'
@@ -41,7 +39,6 @@ module.exports = {
 		return result.rows;
 	},
 	alfabetica: async function obrasOrdemAlfabetica() {
-		conectar()
 		const result = await cliente.query({
 			rowMode: 'array',
 			text: 'SELECT DISTINCT obras.titulo FROM biblioteca.obras ORDER BY obras.titulo ASC'
