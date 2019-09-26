@@ -7,11 +7,11 @@ const { Client } = require('pg');
 const keys = require('./config/keys');
 
 const cliente = new Client({
-	host: keys.heroku.endereco,
-	port: keys.heroku.porta,
-	user: keys.heroku.usuario,
-	password: keys.heroku.senha,
-	database: keys.heroku.nomeDB
+    host: keys.endereco,
+	port: keys.porta,
+	user: keys.usuario,
+	password: keys.senha,
+	database: keys.nomeDB
 });
 
 cliente.connect(err => {
@@ -145,8 +145,3 @@ module.exports = {
         return result.rows;
     }
 }
-
-
-
-
-
