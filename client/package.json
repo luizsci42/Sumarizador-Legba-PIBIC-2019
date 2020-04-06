@@ -1,12 +1,14 @@
 {
-  "name": "biblioteca_front",
+  "name": "slides_front",
   "version": "0.1.0",
-  "proxy": "http://localhost:5000",
+  "proxy": "http://127.0.0.1:5000/",
   "dependencies": {
+    "concurrently": "^4.1.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.1.1",
-    "concurrently": "^4.1.2"
+    "react-scripts": "^3.4.1",
+    "reveal": "^0.0.4",
+    "source-map": "^0.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
