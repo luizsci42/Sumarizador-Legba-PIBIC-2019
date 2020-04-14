@@ -4,13 +4,13 @@ const consulta = require('../consultas');
 const server = express();
 
 module.exports = app => {
-    app.get('/teste', (req, res) => {
+    app.get('/home', (req, res) => {
         consulta.consultar().then(conteudo => {
             res.send({dados: conteudo})
         })
     });
 
-    app.get('/home', (req, res) => {
+    app.get('/teste', (req, res) => {
         res.send({dados: [['Tzain'], ['Mbaku'], ['Geovanne'], ['Luiz']]});
     });
 }

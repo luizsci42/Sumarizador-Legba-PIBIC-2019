@@ -7,7 +7,6 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-scripts": "^3.4.1",
-    "reveal": "^0.0.4",
     "source-map": "^0.7.2"
   },
   "scripts": {
