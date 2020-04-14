@@ -27,12 +27,7 @@ class App extends Component {
 
   render() {
     return (
-      <div class="reveal">
-        <div class="slides">
-          <section>{this.state.data}</section>
-          <section>Slide 2</section>
-        </div>
-      </div>
+      <div ref={el => this.el = el} />
     );
   }
 }
