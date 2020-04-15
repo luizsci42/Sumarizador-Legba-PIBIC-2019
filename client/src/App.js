@@ -1,8 +1,34 @@
 import React, { Component } from 'react';
-import './App.css';
+import Reveal from 'reveal.js'
+import './reveal.css';
+import './black.css';
+
+class Slides extends Component {
+  slides() {
+    React.useEffect(() => {
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        transition: "slide"
+      });
+    }, []);
+  }
+  render() {
+    return (
+      <div className="reveal">
+      <div className="slides">
+        <section>Single Horizontal Slide</section>
+        <section>
+          <section>Vertical Slide 1</section>
+          <section>Vertical Slide 2</section>
+        </section>
+      </div>
+    </div>
+    );
+  }
+}
 
 class App extends Component {
-
   state = { data: [] };
 
   // Esta função é do ciclo de vida do ReactJS. Executada quando os componentes são montados
@@ -12,9 +38,6 @@ class App extends Component {
     // para o RevelJS. Conferir: https://pt-br.reactjs.org/docs/integrating-with-other-libraries.html
   }
 
-  // Aqui será removida a referência que definimos no método componentDidMount()
-  componentWillUnmount() {}
-
   direcionar(caminho) {
     fetch(caminho)
       .then(res => {
@@ -22,13 +45,16 @@ class App extends Component {
       })
       .then(conteudo => {
         this.setState({ data: conteudo.dados });
+        console.log(this.state.data)
       });
   }
 
   render() {
-    return (
-      <div ref={el => this.el = el} />
-    );
+      return (
+        <div>
+          <Slides />
+        </div>
+      );
   }
 }
 
