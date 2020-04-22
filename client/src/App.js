@@ -3,59 +3,76 @@ import Reveal from 'reveal.js'
 import './reveal.css';
 import './black.css';
 
-class Slides extends Component {
-  slides() {
-    React.useEffect(() => {
-      Reveal.initialize({
-        controls: true,
-        progress: true,
-        transition: "slide"
-      });
-    }, []);
+function Slides(props) {
+    return (
+      <section>{props.conteudo}</section>
+    );
+}
+
+class Apresentacao extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: props.value };
   }
+
+  // Método responsável por criar uma tag <section> com o texto a ser exibido
+  renderizarSlide(texto) {
+    console.log("Apresentacao/i: ", this.props.value)
+    return <Slides 
+    value = {"Olá " + texto}
+    conteudo = {this.props.value} />
+  }
+
+  // Dentro da div slides, podemos colocar um for para criar cada tag section
+  // utilizando a função renderizarSlide
+  // TODO: Substituir o argumento para this.state.value
   render() {
     return (
-      <div className="reveal">
       <div className="slides">
-        <section>Single Horizontal Slide</section>
-        <section>
-          <section>Vertical Slide 1</section>
-          <section>Vertical Slide 2</section>
-        </section>
-      </div>
+      {this.renderizarSlide('mundo!')}
+      <section>Single Horizontal Slide</section>
+      <section>
+        <section>Vertical Slide 1</section>
+        <section>Vertical Slide 2</section>
+      </section>
     </div>
-    );
-  }
+    )}
 }
 
 class App extends Component {
-  state = { data: [] };
-
-  // Esta função é do ciclo de vida do ReactJS. Executada quando os componentes são montados
-  componentDidMount() {
-    this.direcionar('/home');
-    // Acho que irei precisar inicializar alguma referência ao elemento raíz e passá-lo 
-    // para o RevelJS. Conferir: https://pt-br.reactjs.org/docs/integrating-with-other-libraries.html
+  constructor(props) {
+    super(props);
+    this.state = { data: [] };
   }
 
-  direcionar(caminho) {
-    fetch(caminho)
+  // Este método faz parte do ciclo de vida do componenete. É o primeiro a ser chamado após o construtor
+  componentWillMount() {
+    fetch('/home')
       .then(res => {
         return res.json();
       })
       .then(conteudo => {
         this.setState({ data: conteudo.dados });
-        console.log(this.state.data)
       });
-  }
+   }
+
+   // Outro método do ciclo de vida, executado após o componentWillMount()
+   componentDidMount() {
+     // Inicializamos a biblioteca de terceiros, RevealJS.
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        transition: "slide"
+      });
+    }
 
   render() {
-      return (
-        <div>
-          <Slides />
-        </div>
-      );
-  }
+    return (
+      // Passamos para o component Apresentacao os dados obtidos do banco de dados
+      <div className="reveal">
+        <Apresentacao value = {this.state.data} />
+      </div>
+    )}
 }
 
 export default App;
