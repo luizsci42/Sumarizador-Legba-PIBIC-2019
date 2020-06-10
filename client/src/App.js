@@ -12,7 +12,7 @@ function Slides(props) {
 class Apresentacao extends Component {
   // Método responsável por criar uma tag <section> com o texto a ser exibido
   renderizarSlide(content) {
-    if(content == undefined) {
+    if(content === undefined) {
       content = []
     }
     console.log('Dentro de renderizarSlide(): ', content)
@@ -46,13 +46,14 @@ class App extends Component {
 
   // Outro método do ciclo de vida, executado após o componentWillMount()
   async componentDidMount() {
-    await fetch('/home')
+    await fetch('/Pan-africanismo')
       .then(res => {
+        console.log('Resposta: ', res.json)
         return res.json();
       })
       .then(conteudo => {
-        this.setState({ data: conteudo.dados });
-        console.log('Dentro do fetch: ', conteudo.dados);
+        this.setState({ data: conteudo });
+        console.log('Dentro do fetch: ', conteudo);
       });
     // Inicializamos a biblioteca de terceiros, RevealJS.
     Reveal.initialize({
