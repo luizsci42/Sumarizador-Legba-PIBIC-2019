@@ -4,39 +4,38 @@ import './reveal.css';
 import './black.css';
 
 function Slides(props) {
-    return (
-      <section>{props.conteudo}</section>
-    );
+  return (
+    <section>{props.conteudo}</section>
+  );
 }
 
 class Apresentacao extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: props.value };
-  }
-
   // Método responsável por criar uma tag <section> com o texto a ser exibido
-  renderizarSlide(texto) {
-    console.log("Apresentacao/i: ", this.props.value)
-    return <Slides 
-    value = {"Olá " + texto}
-    conteudo = {this.props.value} />
+  renderizarSlide(content) {
+    if(content == undefined) {
+      content = []
+    }
+    console.log('Dentro de renderizarSlide(): ', content)
+    return content.map((conteudo) => {
+      const [topico, texto] = conteudo;
+      return (
+        <section>
+          <Slides conteudo={topico} />
+          <Slides conteudo={texto} />
+        </section>
+      )
+    })
   }
 
   // Dentro da div slides, podemos colocar um for para criar cada tag section
   // utilizando a função renderizarSlide
-  // TODO: Substituir o argumento para this.state.value
   render() {
     return (
       <div className="slides">
-      {this.renderizarSlide('mundo!')}
-      <section>Single Horizontal Slide</section>
-      <section>
-        <section>Vertical Slide 1</section>
-        <section>Vertical Slide 2</section>
-      </section>
-    </div>
-    )}
+        {this.renderizarSlide(this.props.value.texto)}
+      </div>
+    )
+  }
 }
 
 class App extends Component {
@@ -45,34 +44,35 @@ class App extends Component {
     this.state = { data: [] };
   }
 
-  // Este método faz parte do ciclo de vida do componenete. É o primeiro a ser chamado após o construtor
-  componentWillMount() {
-    fetch('/home')
+  // Outro método do ciclo de vida, executado após o componentWillMount()
+  async componentDidMount() {
+    await fetch('/home')
       .then(res => {
         return res.json();
       })
       .then(conteudo => {
         this.setState({ data: conteudo.dados });
+        console.log('Dentro do fetch: ', conteudo.dados);
       });
-   }
-
-   // Outro método do ciclo de vida, executado após o componentWillMount()
-   componentDidMount() {
-     // Inicializamos a biblioteca de terceiros, RevealJS.
-      Reveal.initialize({
-        controls: true,
-        progress: true,
-        transition: "slide"
-      });
-    }
+    // Inicializamos a biblioteca de terceiros, RevealJS.
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      transition: "slide",
+      overview: true,
+      slideNumber: true,
+      keyboard: true
+    });
+  }
 
   render() {
     return (
       // Passamos para o component Apresentacao os dados obtidos do banco de dados
       <div className="reveal">
-        <Apresentacao value = {this.state.data} />
+        <Apresentacao value={this.state.data} />
       </div>
-    )}
+    )
+  }
 }
 
 export default App;

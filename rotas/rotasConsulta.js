@@ -9,8 +9,4 @@ module.exports = app => {
             res.send({dados: conteudo})
         })
     });
-
-    app.get('/teste', (req, res) => {
-        res.send({dados: [['Tzain'], ['Mbaku'], ['Geovanne'], ['Luiz']]});
-    });
 }
