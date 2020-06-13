@@ -1,77 +1,71 @@
 import React, { Component } from 'react';
-import Reveal from 'reveal.js'
+import Apresentacao from './Apresentacao.js';
 import './reveal.css';
 import './black.css';
 
-function Slides(props) {
-  return (
-    <section>{props.conteudo}</section>
-  );
-}
+class TituloForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
 
-class Apresentacao extends Component {
-  // Método responsável por criar uma tag <section> com o texto a ser exibido
-  renderizarSlide(content) {
-    if(content === undefined) {
-      content = []
-    }
-    console.log('Dentro de renderizarSlide(): ', content)
-    return content.map((conteudo) => {
-      const [topico, texto] = conteudo;
-      return (
-        <section>
-          <Slides conteudo={topico} />
-          <Slides conteudo={texto} />
-        </section>
-      )
-    })
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // Dentro da div slides, podemos colocar um for para criar cada tag section
-  // utilizando a função renderizarSlide
+  direcionar(titulo) {
+    fetch('/' + titulo)
+      .then(res => {
+        return res.json();
+      })
+      .then(conteudo => {
+        this.setState({ data: conteudo });
+        console.log('Conteúdo obtido do servidor: ', this.state.data.texto);
+      });
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    this.direcionar(this.state.value);
+    event.preventDefault();
+  }
+
   render() {
-    return (
-      <div className="slides">
-        {this.renderizarSlide(this.props.value.texto)}
-      </div>
+    const formulario = (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Título:
+          <input type="text" placeholder="Título do artigo da Wikipédia" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Gerar Slides" />
+      </form>
     )
+    return (
+      // Se this.state.data tiver dados, os passe para o componente App. Caso contrário, retorne formulario
+      this.state.data ? <App dados={this.state.data.texto} /> : formulario
+    );
   }
 }
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { data: [] };
-  }
-
-  // Outro método do ciclo de vida, executado após o componentWillMount()
-  async componentDidMount() {
-    await fetch('/Pan-africanismo')
-      .then(res => {
-        console.log('Resposta: ', res.json)
-        return res.json();
-      })
-      .then(conteudo => {
-        this.setState({ data: conteudo });
-        console.log('Dentro do fetch: ', conteudo);
-      });
-    // Inicializamos a biblioteca de terceiros, RevealJS.
-    Reveal.initialize({
-      controls: true,
-      progress: true,
-      transition: "slide",
-      overview: true,
-      slideNumber: true,
-      keyboard: true
-    });
+    console.log('props do app: ', props)
+    this.state = { data: props };
   }
 
   render() {
-    return (
+    const paginaSlides = (
       // Passamos para o component Apresentacao os dados obtidos do banco de dados
       <div className="reveal">
-        <Apresentacao value={this.state.data} />
+        <Apresentacao value={this.state.data.dados} />
       </div>
+    )
+    console.log("State do app: ", this.state.data)
+    return (
+      this.state.data.dados === undefined ? <TituloForm /> : paginaSlides
     )
   }
 }
