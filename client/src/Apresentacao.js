@@ -22,7 +22,6 @@ function Slides(props) {
     }
     // Método responsável por criar uma tag <section> com o texto a ser exibido
     renderizarSlide(content) {
-      console.log("Content: ", content)
       return content.map((conteudo) => {
         const [topico, texto] = conteudo;
         return (

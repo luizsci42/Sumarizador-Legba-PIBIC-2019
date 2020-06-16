@@ -14,13 +14,21 @@ class TituloForm extends Component {
 
   direcionar(titulo) {
     fetch('/' + titulo)
-      .then(res => {
+    .then(res => {
+      if(res.ok) {
         return res.json();
-      })
-      .then(conteudo => {
-        this.setState({ data: conteudo });
-        console.log('Conteúdo obtido do servidor: ', this.state.data.texto);
-      });
+      }
+      else {
+        console.log(res)
+        throw new Error(res.statusText);
+      }
+    })
+    .then(conteudo => {
+      this.setState({ data: conteudo });
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
 
   handleChange(event) {
@@ -52,7 +60,6 @@ class TituloForm extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
-    console.log('props do app: ', props)
     this.state = { data: props };
   }
 
@@ -63,7 +70,6 @@ class App extends Component {
         <Apresentacao value={this.state.data.dados} />
       </div>
     )
-    console.log("State do app: ", this.state.data)
     return (
       this.state.data.dados === undefined ? <TituloForm /> : paginaSlides
     )
