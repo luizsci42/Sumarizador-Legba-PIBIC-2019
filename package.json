@@ -1,6 +1,10 @@
 {
     "name": "slides",
     "version": "0.1.0",
+    "author": {
+        "name": "Luiz Felipe Souza",
+        "email": "luizsci42@gmail.com"
+    },
     "dependencies": {
         "concurrently": "^4.1.2"
     },
@@ -8,8 +12,10 @@
         "start": "react-scripts start",
         "server": "flask run",
         "client": "npm start --prefix client",
+        "build": "react-scripts build",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+        "postinstall": "npm run build",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
     },
     "eslintConfig": {
         "extends": "react-app"
