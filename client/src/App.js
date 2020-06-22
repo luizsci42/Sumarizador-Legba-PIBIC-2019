@@ -45,7 +45,7 @@ class TituloForm extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
         <label>
-          <img src="../public/freedom.jpg" alt="Gerador de slides" />
+          <img src="" alt="Gerador de slides" />
           <input 
             type="text" 
             placeholder="Título do artigo da Wikipédia" 
