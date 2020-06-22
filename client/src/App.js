@@ -42,7 +42,7 @@ class TituloForm extends Component {
 
   render() {
     const formulario = (
-      <div>
+      <div className="form">
         <form onSubmit={this.handleSubmit}>
         <label>
           <img src="" alt="Gerador de slides" />
