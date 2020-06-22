@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Reveal from 'reveal.js'
+import Reveal from 'reveal.js';
+import './reveal.css';
+import './black.css';
 
 function Slides(props) {
     return (

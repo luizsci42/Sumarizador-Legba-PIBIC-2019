@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Apresentacao from './Apresentacao.js';
-import './reveal.css';
-import './black.css';
+import './styles.css';
+
 
 class TituloForm extends Component {
   constructor(props) {
@@ -42,13 +42,19 @@ class TituloForm extends Component {
 
   render() {
     const formulario = (
-      <form onSubmit={this.handleSubmit}>
+      <div>
+        <form onSubmit={this.handleSubmit}>
         <label>
-          Título:
-          <input type="text" placeholder="Título do artigo da Wikipédia" value={this.state.value} onChange={this.handleChange} />
+          <img src="../public/freedom.jpg" alt="Gerador de slides" />
+          <input 
+            type="text" 
+            placeholder="Título do artigo da Wikipédia" 
+            value={this.state.value} onChange={this.handleChange} 
+          />
         </label>
         <input type="submit" value="Gerar Slides" />
       </form>
+      </div>
     )
     return (
       // Se this.state.data tiver dados, os passe para o componente App. Caso contrário, retorne formulario
