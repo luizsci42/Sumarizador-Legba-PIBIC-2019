@@ -198,45 +198,35 @@ def tf_idf(texto):
     :param texto: O texto original a ser resumido
     :return: O texto resumido
     """
-    print("Texto original: " + texto)
     # Tokenizamos as sentenças, ao invés das palavras
     periodos = sent_tokenize(texto)
-    print("Períodos: " + str(periodos))
 
     total_docs = len(periodos)
-    print("Número de documentos: " + str(total_docs))
 
     # Criamos uma matriz de frequência das palavras em cada sentença
     # Cada sentença é a chave e o valor é um dicionário com a frequência de palavras
     matriz_freq = matriz_frequencia(periodos)
-    print("Matriz de frequência: " + str(matriz_freq))
 
     # Calculamos a frequência de termo de cada palavra e geramos uma matriz
     # Consideramos cada parágrafo como um documento e o termo como uma palavra no parágrafo
     matriz_tf = criar_matriz_tf(matriz_freq)
-    print("Matriz TF: " + str(matriz_tf))
 
     # Uma matriz que contém quantas sentenças possuem determinada palavra
     cont_doc_por_palavras = criar_documentos_por_palavras(matriz_freq)
-    print("Contagem de documentos por palavras: " + str(cont_doc_por_palavras))
 
     # Aqui finalmente calculamos a matriz idf, lembrando que consideramos o parágrafo como o documento
     # e cada palavra no parágrafo como termo
     matriz_idf = criar_matriz_idf(matriz_freq, cont_doc_por_palavras, total_docs)
-    print("Matriz IDF: " + str(matriz_idf))
 
     # Agora multiplicamos os termos da matriz tf e da idf e criamos uma nova matriz com o resultado
     matriz_tfidf = criar_matriz_tfidf(matriz_tf, matriz_idf)
-    print("Matriz TF-IDF: " + str(matriz_tfidf))
 
     # Damos um peso para cada parágrafo de acordo com sua pontuação na matriz TF-IDF
     pontuacao_periodos = pontuar_periodos(matriz_tfidf)
-    print("Pontuação dos períodos: " + str(pontuacao_periodos))
 
     # Cada algoritmo de sumarização utiliza uma forma diferente para calcular a limiar
     # Aqui, calculamos a pontuação média das pontuções dadas para cada sentença
     pontuacao_media = encontrar_pontuacao_media(pontuacao_periodos)
-    print("Pontuação média: " + str(pontuacao_media) + "\n\n")
 
     # Por fim, são colocadas no resumo apenas as frases que pssuem uma pontuação maior que
     # o valor rescolhido como limiar. Aqui, vamos escolher uma limiar de 1.1
