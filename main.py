@@ -3,7 +3,7 @@ from flask import Flask
 from requests import RequestException
 from sumarizador import main
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./client', static_url_path='/')
 
 
 class SumarizadorError(Exception):
