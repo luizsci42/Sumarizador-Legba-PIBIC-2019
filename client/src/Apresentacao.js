@@ -26,11 +26,21 @@ function Slides(props) {
     renderizarSlide(content) {
       return content.map((conteudo) => {
         const [topico, texto] = conteudo;
-        return (
-          <section>
+        console.log(texto)
+        const unicoSlide = 
+        <section>
             <Slides conteudo={topico} />
             <Slides conteudo={texto} />
-          </section>
+        </section>
+        const doisSlides = 
+        <section>
+            <Slides conteudo={topico} />
+            <Slides conteudo={texto.slice(0, 453)} />
+            <Slides conteudo={texto.slice(453, -1)} />
+        </section>
+        
+        return (
+          texto.length > 452 ? doisSlides : unicoSlide
         )
       })
     }
