@@ -46,6 +46,8 @@ def extrair_topicos(texto, titulo):
     irrelevantes = [' Ver também ', ' Referências ', ' Bibliografia ', ' Ligações externas ']
     # Pegamos apenas os tópicos relevantes
     topicos = [topico for topico in resultado if topico not in irrelevantes]
+    # Removemos o primeiro = dos subtópicos
+    topicos = [topico.replace('=', '') for topico in topicos]
 
     # Cada == indica um bloco novo
     paragrafos_e_titulos = texto.split('==')
