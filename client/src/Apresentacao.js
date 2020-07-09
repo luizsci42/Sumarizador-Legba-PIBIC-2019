@@ -26,7 +26,6 @@ function Slides(props) {
     renderizarSlide(content) {
       return content.map((conteudo) => {
         const [topico, texto] = conteudo;
-        console.log(texto)
         const unicoSlide = 
         <section>
             <Slides conteudo={topico} />
