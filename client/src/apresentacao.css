@@ -1,0 +1,10 @@
+.topico {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: larger;
+    align-content: center;
+    vertical-align: middle !important;
+}
+
+.texto {
+    text-align: left;
+}

@@ -2,14 +2,28 @@ import React, { Component } from 'react';
 import Reveal from 'reveal.js';
 import './reveal.css';
 import './black.css';
+import './apresentacao.css';
 
 function Slides(props) {
-    return (
-      <section>{props.conteudo}</section>
-    );
-  }
+  const topico = <section className="topico">{props.conteudo}</section>
+  // const regex = '[A-Z][a-z]{0,3}'
+  var sentencas = props.conteudo.split('.');
+
+  const texto = 
+  <section className="texto">
+    <ul>
+      {sentencas.map(sentenca => {
+        return <li key={sentenca.toString()}>{sentenca}</li>
+      })}
+    </ul>
+  </section>
+
+  return props.topico ? topico : texto;
+}
   
   class Apresentacao extends Component {
+    // TODO: Dar mais destaque aos slides de título e mais destaque ainda ao primeiro slide
+
     // Outro método do ciclo de vida, executado após o componentWillMount()
     componentDidMount() {
       // Inicializamos a biblioteca de terceiros, RevealJS.
@@ -19,31 +33,36 @@ function Slides(props) {
         transition: "slide",
         overview: true,
         slideNumber: true,
-        keyboard: true
+        keyboard: true,
+        display: 'block',
+        disableLayout: true
       });
     }
+
     // Método responsável por criar uma tag <section> com o texto a ser exibido
     renderizarSlide(content) {
       return content.map((conteudo) => {
         const [topico, texto] = conteudo;
+
+        const slideTopico = <Slides topico={true} conteudo={topico} />
+
         const unicoSlide = 
-        <section>
-            <Slides conteudo={topico} />
-            <Slides conteudo={texto} />
+        <section key={topico}>
+            {slideTopico}
+            {<Slides conteudo={texto} />}
         </section>
+
         const doisSlides = 
         <section>
-            <Slides conteudo={topico} />
-            <Slides conteudo={texto.slice(0, 453)} />
-            <Slides conteudo={texto.slice(453, -1)} />
+          {slideTopico}
+          {<Slides conteudo={texto.slice(0, 453)} />}
+          {<Slides conteudo={texto.slice(453, -1)} />}
         </section>
         
-        return (
-          texto.length > 452 ? doisSlides : unicoSlide
-        )
+        return texto.length > 452 ? doisSlides : unicoSlide;
       })
     }
-  
+
     // Dentro da div slides, podemos colocar um for para criar cada tag section
     // utilizando a função renderizarSlide
     render() {
