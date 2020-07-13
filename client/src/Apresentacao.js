@@ -6,14 +6,17 @@ import './apresentacao.css';
 
 function Slides(props) {
   const topico = <section className="topico">{props.conteudo}</section>
-  // const regex = '[A-Z][a-z]{0,3}'
   var sentencas = props.conteudo.split('.');
+  // TODO: Quero definir um limite de caracteres por slide, sem cortar uma sentença no meio
+  // Para isso, acho que posso fazer uma cahamda recursiva à função Slides()
 
   const texto = 
   <section className="texto">
     <ul>
       {sentencas.map(sentenca => {
-        return <li key={sentenca.toString()}>{sentenca}</li>
+        if(sentenca !== "") {
+          return <li key={sentenca.toString()}>{sentenca}</li>
+        }
       })}
     </ul>
   </section>

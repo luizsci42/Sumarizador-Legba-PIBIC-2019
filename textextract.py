@@ -2,9 +2,15 @@ import json
 import re
 import requests
 from requests import RequestException
+from PIL import Image
+from io import BytesIO
 
 
-def extrair(titulo):
+def extrair_texto(titulo):
+    """
+    :param titulo:
+    :return:
+    """
     parametros = {
         'action': 'query',
         'format': 'json',
@@ -30,6 +36,71 @@ def extrair(titulo):
         page = next(iter(response['query']['pages'].values()))
         # Este é o conteúdo em texto da página
         return page['extract']
+
+
+def extrair_imagens(titulo):
+    """
+
+    :param titulo:
+    :return:
+    """
+    parametros = {
+        'action': 'query',
+        'format': 'json',
+        'titles': titulo,
+        'prop': 'images',
+        'explaintext': True
+    }
+
+    try:
+        response = requests.get(
+            'https://pt.wikipedia.org/w/api.php',
+            params=parametros
+        ).json()
+    # Exceção levantada quando há erro de conexão
+    except RequestException:
+        # raise irá rpassar a exceção para ser tratada depois, em outra parte do software
+        raise
+    # Exceção lançada quando não é encontrada uma página com o título passado
+    except KeyError:
+        raise
+    # Código executado se não ocorrer nenhuma exceção
+    else:
+        page = next(iter(response['query']['pages'].values()))
+        # Este é o conteúdo em texto da página
+        imagens = []
+        for imagem in page['images']:
+            imagens.append(imagem['title'])
+
+        fotos = extrair_imagens_aux(imagens)
+
+        return fotos
+
+
+def extrair_imagens_aux(titulos_imagens):
+    enderecos = []
+    for nome_imagem in titulos_imagens:
+        parametros = {
+            'action': 'query',
+            'format': 'json',
+            'titles': nome_imagem,
+            'prop': 'imageinfo',
+            'iiprop': 'url'
+        }
+
+        response = requests.get('https://pt.wikipedia.org/w/api.php', params=parametros).json()
+        dados_imanges = next(iter(response['query']['pages'].values()))
+        endereco = dados_imanges['imageinfo'][0]['url']
+        enderecos.append(endereco)
+
+    return enderecos
+
+
+def extrair(titulo):
+    texto = extrair_texto(titulo)
+    imagens = extrair_imagens(titulo)
+
+    return texto, imagens
 
 
 def extrair_topicos(texto, titulo):
@@ -65,13 +136,14 @@ def extrair_topicos(texto, titulo):
     return conteudo
 
 
-def escrever_json(conteudo):
+def escrever_json(conteudo, imagens):
     """
     :param chaves:
     :param conteudo:
     :return:
     """
-    dicio = {'texto': []}
+
+    dicio = {'texto': [], "imagens": imagens}
     for i in range(0, len(conteudo)):
         dicio['texto'].append((conteudo[i][0], conteudo[i][1]))
 
@@ -83,7 +155,7 @@ def escrever_json(conteudo):
 def gerar_dicionario(titulo_do_artigo):
     try:
         # Extrair texto da Wikipedia
-        texto = extrair(titulo_do_artigo)
+        texto, imagens = extrair(titulo_do_artigo)
     except KeyError:
         raise
     except RequestException:
@@ -92,4 +164,8 @@ def gerar_dicionario(titulo_do_artigo):
         # Faz uma lista com os títulos de cada tópico
         topicos = extrair_topicos(texto, titulo_do_artigo)
         # Gera um JSON cujas chaves são os tópicos e seus respectivos valores são os conteúdos
-        return topicos
+        return topicos, imagens
+
+
+if __name__ == '__main__':
+    gerar_dicionario()
