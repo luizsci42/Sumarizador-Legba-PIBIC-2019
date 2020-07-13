@@ -114,7 +114,7 @@ def extrair_topicos(texto, titulo):
     # + uma ou mais ocorrências
     resultado = re.findall("==(.+?)==", texto)
 
-    irrelevantes = [' Ver também ', ' Referências ', ' Bibliografia ', ' Ligações externas ']
+    irrelevantes = [' Ver também ', ' Referências ', ' Bibliografia ', ' Ligações externas ', ' Fontes ', ' Artigos ']
     # Pegamos apenas os tópicos relevantes
     topicos = [topico for topico in resultado if topico not in irrelevantes]
     # Removemos o primeiro = dos subtópicos
