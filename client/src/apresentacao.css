@@ -1,10 +1,21 @@
 .topico {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: larger;
+    font-size: 90px;
     align-content: center;
-    vertical-align: middle !important;
+    background-color: gray;
+    margin-top: 225px;
 }
 
 .texto {
     text-align: left;
+    margin-top: auto;
+}
+
+.imagem {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img {
+    height: 650px;
 }

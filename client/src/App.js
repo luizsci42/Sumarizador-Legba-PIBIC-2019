@@ -12,6 +12,15 @@ class TituloForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  tratarErros(response) {
+    if(response.status === 500) {
+      document.getElementById('caixaBusca').style.backgroundColor = 'red';
+      const mensagem = document.getElementById('mensagem');
+
+      mensagem.textContent = 'Tópico não encontrado. A página deve existir na Wikipédia!';
+    }
+  }
+
   direcionar(titulo) {
     fetch('/' + titulo)
     .then(res => {
@@ -19,8 +28,7 @@ class TituloForm extends Component {
         return res.json();
       }
       else {
-        console.log(res)
-        throw new Error(res.statusText);
+        this.tratarErros(res);
       }
     })
     .then(conteudo => {
@@ -44,21 +52,21 @@ class TituloForm extends Component {
     const formulario = (
       <div className="form">
         <form onSubmit={this.handleSubmit}>
-        <label>
-          <img src="" alt="Gerador de slides" />
+          <label>Gerador de slides</label>
           <input 
             type="text" 
-            placeholder="Título do artigo da Wikipédia" 
+            placeholder="Título do artigo da Wikipédia"
+            id="caixaBusca"
             value={this.state.value} onChange={this.handleChange} 
           />
-        </label>
+          <label id="mensagem"></label>
         <input type="submit" value="Gerar Slides" />
       </form>
       </div>
     )
     return (
       // Se this.state.data tiver dados, os passe para o componente App. Caso contrário, retorne formulario
-      this.state.data ? <App dados={this.state.data.texto} /> : formulario
+      this.state.data ? <App dados={this.state.data} /> : formulario
     );
   }
 }

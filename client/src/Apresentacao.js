@@ -5,23 +5,41 @@ import './black.css';
 import './apresentacao.css';
 
 function Slides(props) {
-  const topico = <section className="topico">{props.conteudo}</section>
+  if(props.imagem) {
+    return (
+      <section className="imagem">
+        <img src={props.url} alt="" />
+      </section>
+    )
+  }
+  
+  if(props.final) {
+    return (
+      <section>
+        <section>
+          <label>Fim</label>
+          <br />
+          <button type="button"><a href="?print-pdf">Download</a></button>
+        </section>
+      </section>
+    )
+  }
+
+  const topico = <section  className="topico">{props.conteudo}</section>
   var sentencas = props.conteudo.split('.');
-  // TODO: Quero definir um limite de caracteres por slide, sem cortar uma sentença no meio
-  // Para isso, acho que posso fazer uma cahamda recursiva à função Slides()
 
-  const texto = 
-  <section className="texto">
-    <ul>
-      {sentencas.map(sentenca => {
-        if(sentenca !== "") {
-          return <li key={sentenca.toString()}>{sentenca}</li>
-        }
-      })}
-    </ul>
-  </section>
+ const texto = 
+ <section className="texto">
+   <ul>
+     {sentencas.map(sentenca => {
+       if(sentenca !== '') {
+         return <li key={sentenca.toString()}>{sentenca}</li>
+       }
+     })}
+   </ul>
+ </section>
 
-  return props.topico ? topico : texto;
+ return props.topico ? topico : texto;
 }
   
   class Apresentacao extends Component {
@@ -44,35 +62,42 @@ function Slides(props) {
 
     // Método responsável por criar uma tag <section> com o texto a ser exibido
     renderizarSlide(content) {
-      return content.map((conteudo) => {
+      return content.texto.map((conteudo) => {
         const [topico, texto] = conteudo;
 
-        const slideTopico = <Slides topico={true} conteudo={topico} />
+        const slideTopico = <Slides texto={true} topico={true} conteudo={topico} />
 
         const unicoSlide = 
-        <section key={topico}>
+        <section className="quadro" key={topico}>
             {slideTopico}
-            {<Slides conteudo={texto} />}
+            {<Slides texto={true} conteudo={texto} />}
         </section>
 
         const doisSlides = 
-        <section>
+        <section className="quadro" key={topico}>
           {slideTopico}
           {<Slides conteudo={texto.slice(0, 453)} />}
-          {<Slides conteudo={texto.slice(453, -1)} />}
+          {<Slides conteudo={texto.slice(453, -1)} />}          
         </section>
         
         return texto.length > 452 ? doisSlides : unicoSlide;
       })
     }
 
+    slideImagem(dados) {
+     return dados.imagens.map(imagem => {
+       return <Slides key={imagem} url={imagem} imagem={true} />
+     })
+    }
+
     // Dentro da div slides, podemos colocar um for para criar cada tag section
     // utilizando a função renderizarSlide
     render() {
       return (
-        <div className="slides">
+        <section className="slides">
           {this.renderizarSlide(this.props.value)}
-        </div>
+          {this.slideImagem(this.props.value)}
+        </section>
       )
     }
   }
