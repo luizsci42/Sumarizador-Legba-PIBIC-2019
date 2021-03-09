@@ -50,8 +50,8 @@ class TituloForm extends Component {
 
   render() {
     const formulario = (
-      <div className="form">
-        <form onSubmit={this.handleSubmit}>
+      <div className="container">
+        <form className="form" onSubmit={this.handleSubmit}>
           <label>Gerador de slides</label>
           <input 
             type="text" 
