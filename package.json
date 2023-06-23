@@ -6,7 +6,7 @@
         "email": "luizsci42@gmail.com"
     },
     "dependencies": {
-        "concurrently": "^4.1.2"
+        "concurrently": "^8.2.0"
     },
     "scripts": {
         "start": "react-scripts start",
